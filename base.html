@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}ZedAds – Zambia's Marketplace{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="{{ url_for('index') }}" class="logo">
+      <span class="logo-z">Z</span>edAds
+    </a>
+    <ul class="nav-links">
+      <li><a href="{{ url_for('index') }}" class="{% if request.endpoint == 'index' %}active{% endif %}">Home</a></li>
+      <li><a href="{{ url_for('dashboard') }}"
+          class="{% if request.endpoint == 'dashboard' %}active{% endif %}">Dashboard</a></li>
+      <li><a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}">About</a></li>
+    </ul>
+    <a href="{{ url_for('dashboard') }}" class="btn-nav">Post an Ad</a>
+    <button class="hamburger" onclick="toggleMenu()">&#9776;</button>
+  </nav>
+
+  <!-- PAGE CONTENT -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- FOOTER / COPYRIGHT -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo-z">Z</span>edAds
+        <p>Zambia's premier advertising platform connecting buyers, sellers, and service providers across all 10
+          provinces.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Categories</h4>
+        <ul>
+          <li><a href="{{ url_for('dashboard', category='real-estate') }}">Real Estate & Land</a></li>
+          <li><a href="{{ url_for('dashboard', category='motors') }}">Motor Vehicles</a></li>
+          <li><a href="{{ url_for('dashboard', category='graphics') }}">Graphics & Design</a></li>
+          <li><a href="{{ url_for('dashboard', category='printing') }}">Printing Services</a></li>
+          <li><a href="{{ url_for('dashboard', category='courier') }}">Courier Services</a></li>
+          <li><a href="{{ url_for('dashboard', category='loans') }}">Loans & Finance</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <h4>Contact Us</h4>
+        <p>📍 Cairo Road, Lusaka, Zambia</p>
+        <p>📞 +260 97X XXX XXX</p>
+        <p>✉️ info@zedads.co.zm</p>
+        <p>🌐 www.zedads.co.zm</p>
+      </div>
+    </div>
+    <div class="footer-copy">
+      <p>&copy; 2026 ZedAds. All rights reserved. | Proudly Zambian 🇿🇲</p>
+      <p>--JJ.SAKALA</p>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>

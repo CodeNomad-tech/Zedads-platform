@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Dashboard – ZedAds Zambia{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-page">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h3>Categories</h3>
+      <p>Select a section to browse</p>
+    </div>
+    <ul class="sidebar-nav">
+      {% for cat in categories %}
+      <li>
+        <a href="{{ url_for('dashboard', category=cat.id) }}"
+           class="sidebar-link {% if active == cat.id %}active{% endif %}">
+          <span class="s-icon">{{ cat.icon }}</span>
+          <span class="s-label">{{ cat.name }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    <div class="sidebar-promo">
+      <p>📢 Want to advertise here?</p>
+      <a href="#" class="btn-sm">Post an Ad</a>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="dash-main">
+    <!-- Top bar -->
+    <div class="dash-topbar">
+      {% for cat in categories %}
+        {% if cat.id == active %}
+        <div>
+          <h2 class="dash-title">{{ cat.icon }} {{ cat.name }}</h2>
+          <p class="dash-sub">{{ cat.desc }}</p>
+        </div>
+        {% endif %}
+      {% endfor %}
+      <div class="dash-actions">
+        <input type="text" class="search-input" placeholder="Search listings…" oninput="filterCards(this.value)"/>
+      </div>
+    </div>
+
+    <!-- Filter tags -->
+    <div class="filter-tags">
+      <span class="ftag active" onclick="filterTag(this, '')">All</span>
+      {% for listing in listings %}
+        <span class="ftag" onclick="filterTag(this, '{{ listing.tag }}')">{{ listing.tag }}</span>
+      {% endfor %}
+    </div>
+
+    <!-- Listings Grid -->
+    <div class="listings-grid" id="listings-grid">
+      {% for item in listings %}
+      <div class="listing-card" data-tag="{{ item.tag }}" data-title="{{ item.title|lower }}">
+        {% if item.image %}
+        <div class="listing-img-wrapper" style="height: 160px; overflow: hidden; border-radius: 8px; margin-bottom: 1rem;">
+          <img src="{{ url_for('static', filename='images/' ~ item.image) }}" alt="{{ item.title }}" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        {% endif %}
+        <div class="listing-top">
+          <span class="listing-tag">{{ item.tag }}</span>
+        </div>
+        <h4 class="listing-title">{{ item.title }}</h4>
+        <div class="listing-details">
+          <span class="listing-price">{{ item.price }}</span>
+          <span class="listing-loc">📍 {{ item.location }}</span>
+        </div>
+        <button class="btn-contact" onclick="alert('Contact feature coming soon! Thank you for using ZedAds. 🇿🇲')">
+          Contact Seller
+        </button>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% if not listings %}
+    <div class="empty-state">
+      <p>No listings found in this category yet.</p>
+    </div>
+    {% endif %}
+  </div>
+
+</section>
+
+{% endblock %}
